@@ -1,8 +1,9 @@
-#include <iostream>
-using namespace std;
+#include "binarytest.h"
 
 void main()
 {
-	cout<<"hello"<<endl;
+	BinaryTest binarytest;
+    binarytest.testSearchInsert();
+	
 	system("pause");
 }

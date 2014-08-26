@@ -1,14 +1,14 @@
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/strtest)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sorttest)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/subsettest)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/algorithm)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 
-set(strtest_incs   algorithm/strtest.h			  			  	  		
+set(strtest_incs   algorithm/strtest.h	
+                   algorithm/myString.h		  			  	  		
 			)			
-set(strtest_srcs  algorithm/strtest.cpp			   		  
+set(strtest_srcs  algorithm/strtest.cpp	
+                  algorithm/myString.cpp		   		  
 			)
 			
 set(sorttest_incs   algorithm/sorttest.h			  			  	  		
@@ -20,16 +20,42 @@ set(subsettest_incs   algorithm/subsettest.h
 			)			
 set(subsettest_srcs  algorithm/subsettest.cpp			   		  
 			)
+
+set(simpletest_incs   algorithm/simpletest.h			  			  	  		
+			)			
+set(simpletest_srcs  algorithm/simpletest.cpp			   		  
+			)			
+
+set(binarytest_incs   algorithm/binarytest.h			  			  	  		
+			)			
+set(binarytest_srcs  algorithm/binarytest.cpp			   		  
+			)		
+set(treetest_incs   algorithm/treetest.h			  			  	  		
+			)			
+set(treetest_srcs  algorithm/treetest.cpp			   		  
+			)	
+set(linklisttest_incs   algorithm/linklisttest.h			  			  	  		
+			)			
+set(linklisttest_srcs  algorithm/linklisttest.cpp			   		  
+			)				
 			
 
 set(incs    ${strtest_incs}
             ${sorttest_incs}
 			${subsettest_incs}
+			${simpletest_incs}
+			${binarytest_incs}
+			${treetest_incs}
+			${linklisttest_incs}
 			include/test.h
             )
 set(srcs    ${strtest_srcs}
             ${sorttest_srcs}
             ${subsettest_srcs}
+			${simpletest_srcs}
+			${binarytest_srcs}
+			${treetest_srcs}
+			${linklisttest_srcs}
             src/main.cpp
             )
 
@@ -42,9 +68,17 @@ SOURCE_GROUP("SortTest\\include" FILES ${sorttest_incs})
 SOURCE_GROUP("SortTest\\src" FILES ${sorttest_srcs})
 SOURCE_GROUP("SubsetTest\\include" FILES ${subsettest_incs})
 SOURCE_GROUP("SubsetTest\\src" FILES ${subsettest_srcs})
+SOURCE_GROUP("SimpleTest\\include" FILES ${simpletest_incs})
+SOURCE_GROUP("SimpleTest\\src" FILES ${simpletest_srcs})
+SOURCE_GROUP("BinaryTest\\include" FILES ${binarytest_incs})
+SOURCE_GROUP("BinaryTest\\src" FILES ${binarytest_srcs})
+SOURCE_GROUP("TreeTest\\include" FILES ${treetest_incs})
+SOURCE_GROUP("TreeTest\\src" FILES ${treetest_srcs})
+SOURCE_GROUP("LikeListTest\\include" FILES ${linklisttest_incs})
+SOURCE_GROUP("LinkListTest\\src" FILES ${linklisttest_srcs})
 
 
-# Put the ui in the windows project file
+
 IF (${CMAKE_BUILD_TOOL} MATCHES "msdev")
   SET (srcs ${srcs})
 ENDIF (${CMAKE_BUILD_TOOL} MATCHES "msdev")
