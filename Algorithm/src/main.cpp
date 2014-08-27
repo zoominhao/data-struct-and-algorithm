@@ -1,9 +1,9 @@
-#include "binarytest.h"
+#include "linklisttest.h"
 
 void main()
 {
-	BinaryTest binarytest;
-    binarytest.testSearchInsert();
+	LinkListTest linklisttest;
+    linklisttest.testRemoveKthFromEnd();
 	
 	system("pause");
 }
