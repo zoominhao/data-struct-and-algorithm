@@ -166,8 +166,8 @@ bool StrTest::isPalindrome2( int num )
 		return false;
 	}
 	char* numstr = new char;
-	itoa(num,numstr,10);
-	for (int i = 0; i < strlen(numstr)/2; ++i)   //strlen(numstr)/2 + 1  both ok
+	_itoa(num,numstr,10);
+	for (size_t i = 0; i < strlen(numstr)/2; ++i)   //strlen(numstr)/2 + 1  both ok
 	{
 		if (numstr[i] != numstr[strlen(numstr) - i - 1])
 		{
@@ -219,6 +219,81 @@ void StrTest::testManacher( void )
 		printf("%d\n", (Max-1)/2);
 	}
 }
+
+int StrTest::findLongestPalindrome( const char* str)
+{
+	if (str == NULL)
+	{
+		return 0;
+	}
+	int lend;
+	int rend;
+	int lmax = 0;
+	int index = 0;
+	int count;
+	int i;
+	int len = strlen(str);
+	for (i = 1; i < len; ++i)
+	{
+		lend = i - 1;
+		rend = i + 1;
+		count = 0;
+		while (lend >= 0 && rend <= len - 1 && str[lend] == str[rend])
+		{
+			lend --;
+			rend ++;
+			count++;
+		}
+		if (count > lmax)
+		{
+			lmax = count;
+			index = i;
+		}
+	}
+	cout<<"no "<<index<<endl;
+	return lmax*2 + 1;
+}
+
+void StrTest::testFindLongestPalindrome( void )
+{
+	char* str = "dgdfrtatrfr";
+	cout<<findLongestPalindrome(str)<<endl;
+}
+
+void StrTest::leftRotate( char* str, int k )
+{
+	int len = strlen(str);
+	if(str == NULL || k < 0 || k > len - 1)
+	{
+		return;
+	}
+	
+	reverse(str, 0, k - 1);
+	reverse(str, k, len - 1);
+	reverse(str, 0, len - 1);
+}
+
+void StrTest::reverse( char* str, int start, int end )
+{
+	char tmp;
+	while(start < end)
+	{
+       tmp = str[start];
+	   str[start] = str[end];
+	   str[end] = tmp;
+	   start++;
+	   end--;
+	}
+}
+
+void StrTest::testLeftRotate( void )
+{
+	char str[] = "dgdfrtatrfr";
+	leftRotate(str, 3);
+	cout<<str<<endl;
+}
+
+
 
 
 

@@ -34,11 +34,24 @@ set(treetest_incs   algorithm/treetest.h
 			)			
 set(treetest_srcs  algorithm/treetest.cpp			   		  
 			)	
-set(linklisttest_incs   algorithm/linklisttest.h			  			  	  		
+set(linklisttest_incs 	algorithm/linklisttest.h		  			  	  		
 			)			
 set(linklisttest_srcs  algorithm/linklisttest.cpp			   		  
-			)				
-			
+			)	
+set(structtest_incs algorithm/Hash.h
+                    algorithm/LinkedHash.h
+					algorithm/minStack.h
+					algorithm/CircledQueue.h
+					)				
+set(structtest_srcs algorithm/Hash.cpp
+                    algorithm/LinkedHash.cpp
+					algorithm/minStack.cpp
+					algorithm/CircledQueue.cpp
+					)
+set(graphtest_incs algorithm/graph.h
+    )	
+set(graphtest_srcs algorithm/graph.cpp
+    )				
 
 set(incs    ${strtest_incs}
             ${sorttest_incs}
@@ -47,6 +60,8 @@ set(incs    ${strtest_incs}
 			${binarytest_incs}
 			${treetest_incs}
 			${linklisttest_incs}
+			${structtest_incs}
+			${graphtest_incs}
 			include/test.h
             )
 set(srcs    ${strtest_srcs}
@@ -56,6 +71,8 @@ set(srcs    ${strtest_srcs}
 			${binarytest_srcs}
 			${treetest_srcs}
 			${linklisttest_srcs}
+			${structtest_srcs}
+			${graphtest_srcs}
             src/main.cpp
             )
 
@@ -76,6 +93,10 @@ SOURCE_GROUP("TreeTest\\include" FILES ${treetest_incs})
 SOURCE_GROUP("TreeTest\\src" FILES ${treetest_srcs})
 SOURCE_GROUP("LikeListTest\\include" FILES ${linklisttest_incs})
 SOURCE_GROUP("LinkListTest\\src" FILES ${linklisttest_srcs})
+SOURCE_GROUP("StructTest\\include" FILES ${structtest_incs})
+SOURCE_GROUP("StructTest\\src" FILES ${structtest_srcs})
+SOURCE_GROUP("GraphTest\\include" FILES ${graphtest_incs})
+SOURCE_GROUP("GraphTest\\src" FILES ${graphtest_srcs})
 
 
 

@@ -1,9 +1,8 @@
-#include "linklisttest.h"
+#include "CircledQueue.h"
 
 void main()
 {
-	LinkListTest linklisttest;
-    linklisttest.testRemoveKthFromEnd();
+
 	
 	system("pause");
 }

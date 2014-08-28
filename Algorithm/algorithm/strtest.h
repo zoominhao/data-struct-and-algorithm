@@ -24,6 +24,15 @@ public:
 	void testPalindrome(void);
 
 	void testManacher(void);
+
+	//http://www.2cto.com/kf/201310/248225.html
+	int findLongestPalindrome( const char* str);
+	void testFindLongestPalindrome(void);
+
+	//left rotate
+	void leftRotate(char* str, int k);
+	void reverse(char* str, int start, int end);
+	void testLeftRotate(void);
 private:
 	void getNext(int* next, const char* pattern);
 
