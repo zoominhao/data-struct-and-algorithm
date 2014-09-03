@@ -11,7 +11,11 @@ struct TreeNode {
      int val;
      TreeNode *left;
      TreeNode *right;
-     TreeNode(int x, TreeNode* nleft = NULL, TreeNode* nright = NULL): val(x), left(nleft), right(nright){}
+     TreeNode(int x, TreeNode* nleft = NULL, TreeNode* nright = NULL)
+		 :val(x), left(nleft), right(nright)
+	 {
+
+	 }
 };
  
 
@@ -35,5 +39,18 @@ public:
 	vector<int> inorderTraversal2(TreeNode* root);
 
 	void testTraversal( void );
+
+	//  Given a binary tree, return the level order traversal of its nodes' values.
+	// (ie, from left to right, level by level). For example: Given binary tree {3,9,20,#,#,15,7},
+	// 3 / \ 9 20 / \ 15 7 return its level order traversal as: [ [3], [9,20], [15,7] ]
+	vector<vector<int>> levelOrder( TreeNode* root );
+
+	// Given a binary tree, determine if it is a valid binary search tree (BST). 
+	// Assume a BST is defined as follows: The left subtree of a node contains only nodes with keys less than the node's key. 
+	// The right subtree of a node contains only nodes with keys greater than the node's key. 
+	// Both the left and right subtrees must also be binary search trees. 
+	bool isValidBST(TreeNode* root);
+
+	bool isBalancedTree(TreeNode* root);
 		
 };

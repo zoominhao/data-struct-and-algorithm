@@ -193,7 +193,7 @@ void TreeTest::testTraversal( void )
 	}
 	cout<<endl;
 	//postorder: 5, 1, 2, 4, 6, 3
-	vector<int> postorder = postorderTraversal(root);
+	vector<int> postorder = postorderTraversal2(root);
 	cout<<"postOrder: "<<endl;
 	for (int i = 0; i < postorder.size(); ++i)
 	{
@@ -201,6 +201,69 @@ void TreeTest::testTraversal( void )
 	}
 	cout<<endl;
 	//level order: 3, 2, 6, 5, 1, 4
+}
+
+vector<vector<int>> TreeTest::levelOrder( TreeNode* root )
+{
+	vector<vector<int>> rst;
+	if (root == NULL)
+	{
+		return rst;
+	}
+	queue<TreeNode*> que;
+	que.push(root);
+
+	while (!que.empty())
+	{
+		vector<int> level;
+		int size = que.size();
+		for (int i = 0; i < size; ++i)
+		{
+			TreeNode* head = que.front();
+			level.push_back(head->val);
+			if (head->left != NULL)
+			{
+				que.push(head->left);
+			}
+			if(head->right != NULL)
+			{
+				que.push(head->right);
+			}
+		}
+		rst.push_back(level);
+	}
+	return rst;
+}
+
+int lastVal = INT_MIN;
+bool TreeTest::isValidBST( TreeNode* root )
+{
+	if(root == NULL)
+	{
+		return true;
+	}
+	if (!isValidBST(root->left))
+	{
+		return false;
+	}
+	if (lastVal  >= root->val)
+	{
+		return false;
+	}
+	lastVal = root->val;
+	if (!isValidBST(root->right))
+	{
+		return false;
+	}
+	return true;
+}
+
+bool TreeTest::isBalancedTree( TreeNode* root )
+{
+	if(root == NULL)
+	{
+       return 
+	}
 }
 
 

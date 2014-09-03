@@ -56,7 +56,8 @@ ListNode* LinkListTest::deleteDuplicates2( ListNode* head )
 
 void LinkListTest::testDeleteDuplicates( void )
 {
-	int num[] = {1, 1, 2, 2, 3, 3, 3, 15};
+	//int num[] = {1, 1, 2, 2, 3, 3, 3, 15};
+	int num[] = {1, 1, 2};
 	ListNode* pt, *current;
 	pt = (ListNode*)malloc(sizeof(ListNode));
 	current = pt;
@@ -71,7 +72,7 @@ void LinkListTest::testDeleteDuplicates( void )
 	current -> next  = NULL;
 
 	//pt = deleteDuplicates2(pt->next);
-	//pt = del( pt->next, pt->next->next );
+	pt = del( pt->next, pt->next->next->next );
 
 	while(pt != NULL)
 	{
@@ -112,14 +113,26 @@ ListNode* LinkListTest::mergeTwoLists( ListNode* l1, ListNode* l2 )
 	return dummy->next;
 }
 
-void LinkListTest::insert(ListNode* toInsert, int x )
+ListNode* LinkListTest::insertAtHead(ListNode* head, int x)
 {
-	if (toInsert == NULL)
-	{
-		return;
-	}
+	ListNode* np = new ListNode(x, head);
+	return np;
 
-	toInsert->next = new ListNode(x,toInsert->next);
+}
+
+ListNode* LinkListTest::insertAtTail(ListNode* head, int x)
+{
+	ListNode dummy(-1);
+	dummy.next = head;
+
+	ListNode *p = &dummy;
+	while (p->next != NULL)
+	{
+		p = p->next;
+	}
+	ListNode* np = new  ListNode(x);
+	np->next = p;
+	return dummy.next;
 }
 
 ListNode* LinkListTest::del( ListNode* head, ListNode* toDel )
@@ -128,7 +141,6 @@ ListNode* LinkListTest::del( ListNode* head, ListNode* toDel )
 	{
 		return head;
 	}
-	
 	if (toDel->next != NULL)
 	{
 		toDel->val = toDel->next->val;
@@ -150,9 +162,9 @@ ListNode* LinkListTest::del( ListNode* head, ListNode* toDel )
 		{
 			return head;
 		}
-		ListNode *tmp = toDel;
+
 		head->next = NULL;
-		delete tmp;
+		delete toDel;
 		return dummy->next;
 	}
 }

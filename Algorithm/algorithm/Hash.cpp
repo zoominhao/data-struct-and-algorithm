@@ -23,9 +23,10 @@ int HashTable::Hash( int key )
 
 int HashTable::Hash2(int key)
 {
-	m_sum = m_sum * 33 + key;
+	/*m_sum = m_sum * 33 + key;
 	m_sum = m_sum % m_length;
-	return m_sum;
+	return m_sum;*/
+	return 0;
 }
 
 void HashTable::linearInsert( int key )

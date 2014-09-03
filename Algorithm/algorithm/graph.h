@@ -1,5 +1,36 @@
-#pragma 
+#pragma once
 #include <iostream>
+#include <vector>
+
+#include <queue>
+#include <stack>
+
+using namespace std;
+
+struct UndirectedGraphNode
+{
+	int label;
+	vector<UndirectedGraphNode*> neighbors;
+	UndirectedGraphNode(int x) { label = x;}
+};  
+
+
+const int VN = 5;
+
+class Graph{
+public:
+	Graph();
+	void addEdge(int start, int end, int weight);
+	void bfs();
+	void dfs();
+	void topoSort();
+public:
+	int edge[VN][VN];
+	int inDegree[VN];
+};
+
+
+
 
 class GraphTest
 {
@@ -12,4 +43,9 @@ public:
 	// First node is labeled as 0. Connect node 0 to both nodes 1 and 2. Second node is labeled as 1. Connect node 1 to node 2. 
 	// Third node is labeled as 2. Connect node 2 to node 2 (itself), thus forming a self-cycle. 
 	// Visually, the graph looks like the following: 1 / \ / \ 0 --- 2 / \ \_/ 
+	UndirectedGraphNode* cloneGraph(UndirectedGraphNode* node);
+
+	void testBFS( void );
+	void testDFS( void );
+
 };
