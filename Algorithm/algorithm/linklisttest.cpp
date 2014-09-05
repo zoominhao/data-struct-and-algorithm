@@ -351,3 +351,33 @@ void LinkListTest::testRemoveKthFromEnd( void )
 	}
 	cout<<endl;
 }
+
+ListNode* LinkListTest::detectCycle( ListNode* head )
+{
+	if (head == NULL)
+	{
+		return NULL;
+	}
+	ListNode* slow = head;
+	ListNode* fast = head;
+	while (fast->next != NULL && fast->next->next != NULL)
+	{
+		slow = slow->next;
+		fast = fast->next->next;
+		if (slow == fast)
+		{
+			break;
+		}
+	}
+	if (fast == NULL)
+	{
+		return NULL;
+	}
+	fast = head;
+	while (fast != slow)
+	{
+		fast = fast->next;
+		slow = slow->next;
+	}
+	return fast;
+}

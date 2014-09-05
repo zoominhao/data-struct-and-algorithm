@@ -179,7 +179,7 @@ void TreeTest::testTraversal( void )
 	//preorder:  3, 2, 5, 1, 6, 4
 	vector<int> preorder = preorderTraversal3(root);
 	cout<<"preOrder: "<<endl;
-	for (int i = 0; i < preorder.size(); ++i)
+	for (size_t i = 0; i < preorder.size(); ++i)
 	{
 		cout<<preorder[i]<<" ";
 	}
@@ -187,7 +187,7 @@ void TreeTest::testTraversal( void )
 	//inorder:  5, 2, 1, 3, 6, 4
 	vector<int> inorder = inorderTraversal2( root );
 	cout<<"inOrder: "<<endl;
-	for (int i = 0; i < inorder.size(); ++i)
+	for (size_t i = 0; i < inorder.size(); ++i)
 	{
 		cout<<inorder[i]<<" ";
 	}
@@ -195,7 +195,7 @@ void TreeTest::testTraversal( void )
 	//postorder: 5, 1, 2, 4, 6, 3
 	vector<int> postorder = postorderTraversal2(root);
 	cout<<"postOrder: "<<endl;
-	for (int i = 0; i < postorder.size(); ++i)
+	for (size_t i = 0; i < postorder.size(); ++i)
 	{
 		cout<<postorder[i]<<" ";
 	}
@@ -258,13 +258,242 @@ bool TreeTest::isValidBST( TreeNode* root )
 	return true;
 }
 
+
 bool TreeTest::isBalancedTree( TreeNode* root )
+{
+	int depth = 0;
+	return isBalanced(root, depth);
+}
+
+bool TreeTest::isBalanced(TreeNode* root, int& depth)
 {
 	if(root == NULL)
 	{
-       return 
+		depth = 0;
+		return true;
+	}
+	int lh, rh;
+	if(isBalanced(root->left,lh) && isBalanced(root->right,rh))
+	{
+		if(abs(lh - rh) <= 1)
+		{
+			depth = max(lh, rh) + 1;
+			return true;
+		}
+	}
+	return false;
+}
+
+void TreeTest::testValid( void )
+{
+	//just test, if u want to build a tree, then use recursion
+	//         3
+	//     2        6
+	//  5     1         4
+
+	/*TreeNode* ll_leaf = new TreeNode(5); 
+	TreeNode* lr_leaf = new TreeNode(1);
+	TreeNode* rr_leaf = new TreeNode(4);
+	TreeNode* l_node = new TreeNode(2, ll_leaf, lr_leaf);
+	TreeNode* r_node = new TreeNode(6, NULL, rr_leaf);
+	TreeNode* root = new TreeNode(3, l_node, r_node);
+	cout<<isBalancedTree(root)<<endl;*/
+	//just test, if u want to build a tree, then use recursion
+	//            3
+	//      2           6
+	//  5       1         
+	//        4
+	TreeNode* ll_leaf = new TreeNode(5); 
+	TreeNode* lrl_leaf = new TreeNode(4); 
+	TreeNode* lr_leaf = new TreeNode(1, lrl_leaf);
+	TreeNode* l_node = new TreeNode(2, ll_leaf, lr_leaf);
+	TreeNode* r_node = new TreeNode(6);
+	TreeNode* root = new TreeNode(3, l_node, r_node);
+	cout<<maxDepth(root)<<endl;
+
+}
+
+int TreeTest::minDepth( TreeNode* root )
+{
+	if(root == NULL)
+	{
+		return 0;
+	}
+	int lh = minDepth(root->left);
+	int rh = minDepth(root->right);
+	return min(lh, rh) + 1;
+}
+
+int TreeTest::maxDepth( TreeNode* root )
+{
+	if (root == NULL)
+	{
+		return 0;
+	}
+	int lh = maxDepth(root->left);
+	int rh = maxDepth(root->right);
+	return max(lh, rh) + 1;
+}
+
+bool TreeTest::isSameTree( TreeNode* root1, TreeNode* root2 )
+{
+	if (root1 == NULL && root2 == NULL)
+	{
+		return true;
+	}
+	if (root1 == NULL || root2 == NULL)
+	{
+		return false;
+	}
+	return ( root1->val == root2->val ) 
+		&& isSameTree(root1->left, root2->left) 
+		&& isSameTree(root1->right, root2->right);
+}
+
+bool TreeTest::isSymmetricTree( TreeNode* root )
+{
+	if (root == NULL)
+	{
+		return true;
+	}
+	return isSameTree(root->left, root->right);
+}
+
+void TreeTest::destroyTree( TreeNode* root )
+{
+	if(root == NULL)
+	{
+		return;
+	}
+	destroyTree(root->left);
+	destroyTree(root->right);
+	delete root;
+}
+
+void TreeTest::deleteBST( TreeNode* root, int target )
+{
+/*
+	TreeNode* par = NULL;
+	TreeNode* cur = root;
+	while (cur != NULL)
+	{
+		if(target > cur->val)
+		{
+			par = cur;
+			cur = cur->right;
+		}
+		else if (target < cur->val)
+		{
+			par = cur;
+			cur = cur->left;
+		}
+		else
+		{
+			if(cur->left == NULL && cur->right == NULL)
+			{
+				delete cur;
+				cur = NULL;
+			}
+		}
+	}*/
+}
+
+bool TreeTest::insertBST( TreeNode* root, TreeNode* node)
+{
+	TreeNode* par = NULL;
+	TreeNode* cur = root;
+	while (cur != NULL)
+	{
+		if (cur->val > node->val)
+		{
+			par = cur;
+			cur = cur->left;
+		}
+		else if(cur->val < node->val)
+		{
+			par = cur;
+			cur = cur->right;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	if (par == NULL)
+	{
+		root = node;
+	}
+	else
+	{
+		if (cur->val > node->val)
+		{
+			cur->left = node;
+		}
+		else
+		{
+			cur->right = node;
+		}
+	}
+	
+	return true;
+}
+
+TreeNode* TreeTest::searchBST( TreeNode* root, int target)
+{
+	while (root != NULL)
+	{
+		if (root->val > target)
+		{
+			root = root->left;
+		}
+		else if (root->val < target)
+		{
+			root = root->right;
+		}
+		else
+		{
+            return root;
+		}
+	}
+	return NULL;
+}
+
+void TreeTest::insertBST2( TreeNode* root, TreeNode* node )
+{
+	if (root == NULL)
+	{
+		root = node;
+	}
+	if (root->val > node->val)
+	{
+		insertBST2(root->left, node);
+	}
+	else if (root->val < node->val)
+	{
+        insertBST2(root->right, node);
 	}
 }
+
+bool TreeTest::searchBST2( TreeNode* root, int target )
+{
+	if (root == NULL)
+	{
+		return false;
+	}
+	if (root->val > target)
+	{
+		return searchBST(root->left, target);
+	}
+	else if(root->val < target)
+	{
+		return searchBST(root->right, target);
+	}
+	else
+	{
+		return true;
+	}
+}
+
 
 
 

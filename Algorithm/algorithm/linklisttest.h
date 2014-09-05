@@ -51,5 +51,8 @@ public:
 	//remove the kth from end
 	ListNode* removeKthFromEnd(ListNode* head, int k);
 
+	//detect cycle
+	ListNode* detectCycle(ListNode* head);
+
 	void testRemoveKthFromEnd( void );
 };  

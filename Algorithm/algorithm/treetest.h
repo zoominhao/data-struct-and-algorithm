@@ -52,5 +52,22 @@ public:
 	bool isValidBST(TreeNode* root);
 
 	bool isBalancedTree(TreeNode* root);
-		
+	bool isBalanced(TreeNode* root, int& depth);
+
+	int minDepth(TreeNode* root);
+	int maxDepth(TreeNode* root);
+
+	bool isSameTree(TreeNode* root1, TreeNode* root2);
+	bool isSymmetricTree( TreeNode* root );
+
+	void destroyTree(TreeNode* root);
+
+	void deleteBST(TreeNode* root, int target );
+	bool insertBST(TreeNode* root, TreeNode* node);
+	TreeNode* searchBST(TreeNode* root, int target); 
+	void insertBST2(TreeNode* root, TreeNode* node);
+	bool searchBST2(TreeNode* root, int target );
+
+	void testValid( void );
 };
+

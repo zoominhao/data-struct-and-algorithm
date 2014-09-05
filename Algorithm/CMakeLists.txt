@@ -42,16 +42,25 @@ set(structtest_incs algorithm/Hash.h
                     algorithm/LinkedHash.h
 					algorithm/minStack.h
 					algorithm/CircledQueue.h
+					algorithm/QueueWithStack.h
+					algorithm/StackWithQueue.h
 					)				
 set(structtest_srcs algorithm/Hash.cpp
                     algorithm/LinkedHash.cpp
 					algorithm/minStack.cpp
 					algorithm/CircledQueue.cpp
+					algorithm/QueueWithStack.cpp
+					algorithm/StackWithQueue.cpp
 					)
 set(graphtest_incs algorithm/graph.h
     )	
 set(graphtest_srcs algorithm/graph.cpp
-    )				
+    )	
+set(bigInteger_incs algorithm/bigInteger.h
+    )	
+set(bigInteger_srcs algorithm/bigInteger.cpp
+    )	
+	
 
 set(incs    ${strtest_incs}
             ${sorttest_incs}
@@ -62,6 +71,7 @@ set(incs    ${strtest_incs}
 			${linklisttest_incs}
 			${structtest_incs}
 			${graphtest_incs}
+			${bigInteger_incs}
 			include/test.h
             )
 set(srcs    ${strtest_srcs}
@@ -73,6 +83,7 @@ set(srcs    ${strtest_srcs}
 			${linklisttest_srcs}
 			${structtest_srcs}
 			${graphtest_srcs}
+			${bigInteger_srcs}
             src/main.cpp
             )
 
@@ -97,6 +108,8 @@ SOURCE_GROUP("StructTest\\include" FILES ${structtest_incs})
 SOURCE_GROUP("StructTest\\src" FILES ${structtest_srcs})
 SOURCE_GROUP("GraphTest\\include" FILES ${graphtest_incs})
 SOURCE_GROUP("GraphTest\\src" FILES ${graphtest_srcs})
+SOURCE_GROUP("BigTest\\include" FILES ${bigInteger_incs})
+SOURCE_GROUP("BigTest\\src" FILES ${bigInteger_srcs})
 
 
 
