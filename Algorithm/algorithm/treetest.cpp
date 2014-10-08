@@ -201,6 +201,17 @@ void TreeTest::testTraversal( void )
 	}
 	cout<<endl;
 	//level order: 3, 2, 6, 5, 1, 4
+	//zigzag level order: 3, 6, 2, 5, 1, 4
+	vector<vector<int>> zigzag = zigZagLevelOrder(root);
+	cout<<"zigzag level order"<<endl;
+	for (int i = 0; i < zigzag.size(); ++i)
+	{
+		for (int j = 0; j< zigzag[i].size(); ++j)
+		{
+			cout<<zigzag[i][j]<<" ";
+		}
+		cout<<endl;
+	}
 }
 
 vector<vector<int>> TreeTest::levelOrder( TreeNode* root )
@@ -221,6 +232,7 @@ vector<vector<int>> TreeTest::levelOrder( TreeNode* root )
 		{
 			TreeNode* head = que.front();
 			level.push_back(head->val);
+			que.pop();
 			if (head->left != NULL)
 			{
 				que.push(head->left);
@@ -321,7 +333,18 @@ int TreeTest::minDepth( TreeNode* root )
 	}
 	int lh = minDepth(root->left);
 	int rh = minDepth(root->right);
-	return min(lh, rh) + 1;
+	if (lh == 0)
+	{
+		return rh + 1;
+	}
+	else if (rh == 0)
+	{
+		return lh + 1;
+	}
+	else
+	{
+		return min(lh, rh) + 1;
+	}
 }
 
 int TreeTest::maxDepth( TreeNode* root )
@@ -370,32 +393,63 @@ void TreeTest::destroyTree( TreeNode* root )
 	delete root;
 }
 
-void TreeTest::deleteBST( TreeNode* root, int target )
+bool TreeTest::deleteBST( TreeNode* root, int target )
 {
-/*
-	TreeNode* par = NULL;
-	TreeNode* cur = root;
-	while (cur != NULL)
+	if (root == NULL)
 	{
-		if(target > cur->val)
+		return false;
+	}
+	if(root->val > target)
+	{
+		return deleteBST(root->left, target);
+	}
+	else if (root->val < target)
+	{
+		return deleteBST(root->right, target);
+	}
+	else
+	{
+		return deleteNode(root);
+	}
+}
+
+
+bool TreeTest::deleteNode( TreeNode* node)
+{
+	TreeNode *par;
+	if(node->left == NULL)
+	{
+		par = node;
+		node = node->right;
+		free(par);
+	}
+	else if(node->right == NULL)
+	{
+		par = node;
+		node = node->left;
+		free(par);
+	}
+	else
+	{
+		par = node;
+		TreeNode* tmp = node->left;
+		while(tmp->right != NULL)
 		{
-			par = cur;
-			cur = cur->right;
+			par = tmp;
+			tmp = tmp->right;
 		}
-		else if (target < cur->val)
+		node->val = tmp->val;
+		if(par == node)
 		{
-			par = cur;
-			cur = cur->left;
+			par->left = tmp->left;
 		}
 		else
 		{
-			if(cur->left == NULL && cur->right == NULL)
-			{
-				delete cur;
-				cur = NULL;
-			}
+			par->right = tmp->left;
 		}
-	}*/
+		free(tmp);
+	}
+	return true;
 }
 
 bool TreeTest::insertBST( TreeNode* root, TreeNode* node)
@@ -425,13 +479,13 @@ bool TreeTest::insertBST( TreeNode* root, TreeNode* node)
 	}
 	else
 	{
-		if (cur->val > node->val)
+		if (par->val > node->val)
 		{
-			cur->left = node;
+			par->left = node;
 		}
 		else
 		{
-			cur->right = node;
+			par->right = node;
 		}
 	}
 	
@@ -493,6 +547,262 @@ bool TreeTest::searchBST2( TreeNode* root, int target )
 		return true;
 	}
 }
+
+vector<int> TreeTest::DFS( TreeNode* root )
+{
+	vector<int> rst;
+	if(root == NULL)
+		return rst;
+	stack<TreeNode* > stk;
+	stk.push(root);
+
+	while(!stk.empty())
+	{
+		root = stk.top();
+		rst.push_back(root->val);
+		stk.pop();
+		if(root->right != NULL)
+			stk.push(root->right);
+		if(root->left != NULL)
+			stk.push(root->left);
+	}
+	return rst;
+}
+
+vector<int> TreeTest::BFS( TreeNode* root )
+{
+	vector<int> rst;
+	if(root == NULL)
+		return rst;
+	queue<TreeNode* > que;
+	que.push(root);
+
+	while (!que.empty())
+	{
+		root = que.front();
+		rst.push_back(root->val);
+		que.pop();
+		if(root->left != NULL)
+			que.push(root->left);
+		if(root->right != NULL)
+			que.push(root->right);
+	}
+	return rst;
+
+}
+
+bool TreeTest::isSubTree( TreeNode* T1, TreeNode* T2 )
+{
+	if(T1 == NULL)
+		return false;
+	if(isSameTree(T1, T2))
+		return true;
+	return isSubTree(T1->left, T2) || isSubTree(T1->right, T2);
+}
+
+TreeNode* TreeTest::buildTreeFromInandPost( vector<int>& inOrder, vector<int>& postOrder )
+{
+	if(inOrder.size() == 0 || postOrder.size() != inOrder.size())
+	{
+		return NULL;
+	}
+	return buildIPHelper(inOrder.begin(), inOrder.end(), postOrder.begin(), postOrder.end());
+}
+
+TreeNode* TreeTest::buildIPHelper( vector<int>::iterator inL, vector<int>::iterator inR, vector<int>::iterator postL, vector<int>::iterator postR )
+{
+	if (postL >= postR)
+	{
+		return NULL;
+	}
+	int val = *(--postR);
+	vector<int>::iterator cur = find(inL, inR, val);
+	int lsize = cur - inL;
+
+	TreeNode* root = new TreeNode(val);
+
+	root->left = buildIPHelper(inL, cur, postL, postL + lsize);
+	root->right = buildIPHelper(cur + 1, inR, postL + lsize, postR);
+	return root;
+}
+
+TreeNode* TreeTest::buildTreeFromPreandIn( vector<int>& preOrder, vector<int>& inOrder )
+{
+	if(preOrder.size() == 0 || preOrder.size() != inOrder.size())
+	{
+		return NULL;
+	}
+
+	return buildPIHelper(preOrder.begin(), preOrder.end(), inOrder.begin(), inOrder.end());
+}
+
+TreeNode* TreeTest::buildPIHelper( vector<int>::iterator preL, vector<int>::iterator preR, vector<int>::iterator inL, vector<int>::iterator inR )
+{
+	if(preL >= preR)
+	{
+		return NULL;
+	}
+
+	int val = *(preL++);
+	vector<int>::iterator cur = find(inL, inR, val);
+	int rsize = inR - cur;
+
+	TreeNode* root = new TreeNode(val);
+	root->left = buildPIHelper(preL, preR - rsize, inL, cur);
+	root->right = buildPIHelper(preR - rsize, preR, cur + 1, inR);
+
+	return root;
+}
+
+vector<vector<int>> TreeTest::zigZagLevelOrder( TreeNode* root )
+{
+	vector<vector<int>>  rst;
+	if(root == NULL)
+	{
+		return rst;
+	}
+
+	stack<TreeNode* > curStk;
+	
+	curStk.push(root);
+	bool isNormal = true;
+	while (!curStk.empty())
+	{
+		vector<int> curRst;
+		stack<TreeNode* > nextStk;
+		while (!curStk.empty())
+		{
+			TreeNode* root = curStk.top();
+			curStk.pop();
+			curRst.push_back(root->val);
+
+			if(isNormal)
+			{
+				if(root->left != NULL)
+				{
+					nextStk.push(root->left);
+				}
+				if(root->right != NULL)
+				{
+					nextStk.push(root->right);
+				}
+			}
+			else
+			{
+				if(root->right != NULL)
+				{
+					nextStk.push(root->right);
+				}
+				if(root->left != NULL)
+				{
+					nextStk.push(root->left);
+				}
+			}
+		}
+		isNormal = !isNormal;
+		curStk = nextStk;
+
+		rst.push_back(curRst);
+	}
+	return rst;
+}
+
+vector<int> TreeTest::rangeSearchOnBST( TreeNode* root, int k1, int k2 )
+{
+	vector<int> rst;
+	if(root == NULL)
+	{
+		return rst;
+	}
+
+	if(k1 < root->val)
+	{
+		vector<int> lrst = rangeSearchOnBST(root->left, k1, k2);
+		rst.insert(rst.end(), lrst.begin(), lrst.end());
+	}
+	if(k1 <= root->val && k2 >= root->val)
+	{
+		rst.push_back(root->val);
+	}
+	if(k2 > root->val)
+	{
+		vector<int> rrst = rangeSearchOnBST(root->right, k1, k2);
+		rst.insert(rst.end(), rrst.begin(), rrst.end());
+	}
+	return rst;
+}
+
+
+
+void TreeTest::testSearch( void )
+{
+	//just test, if u want to build a tree, then use recursion
+	//         20
+	//     8        22
+	//  4     12         24
+
+	TreeNode* ll_leaf = new TreeNode(4); 
+	TreeNode* lr_leaf = new TreeNode(12);
+	TreeNode* rr_leaf = new TreeNode(24);
+	TreeNode* l_node = new TreeNode(8, ll_leaf, lr_leaf);
+	TreeNode* r_node = new TreeNode(22, NULL, rr_leaf);
+	TreeNode* root = new TreeNode(20, l_node, r_node);
+
+	vector<int> rst = rangeSearchOnBST(root, 10, 22);
+	for (int i = 0; i < rst.size(); ++i)
+	{
+		cout<<rst[i]<<" ";
+	}
+	cout<<endl;
+}
+
+bool TreeTest::isCover( TreeNode* root, TreeNode* node )
+{
+	if(root == NULL)
+		return false;
+	if(root == node)
+		return true;
+	return isCover(root->left, node) || isCover(root->right, node);
+}
+
+TreeNode* TreeTest::lca( TreeNode* root, TreeNode* node1, TreeNode* node2 )
+{
+	if(root == NULL || node1 == NULL || node2 == NULL)
+	{
+		return NULL;
+	}
+
+	if (isCover(root->left, node1) && isCover(root->left, node2))
+	{
+		return lca(root->left, node1, node2);
+	}
+	if (isCover(root->right, node1) && isCover(root->right, node2))
+	{
+		return lca(root->right, node1, node2);
+	}
+	return root;
+}
+
+TreeNode* TreeTest::lcaBST( TreeNode* root, TreeNode* node1, TreeNode* node2 )
+{
+	if(root == NULL || node1 == NULL || node2 == NULL)
+	{
+		return NULL;
+	}
+
+	if(min(node1->val, node2->val)  > root->val)
+	{
+		return lcaBST(root->right, node1, node2);
+	}
+	if(max(node1->val, node2->val)  < root->val)
+	{
+		return lcaBST(root->left, node1, node2);
+	}
+	return root;
+}
+
+
+
 
 
 

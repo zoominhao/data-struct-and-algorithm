@@ -44,7 +44,7 @@ public:
 	// (ie, from left to right, level by level). For example: Given binary tree {3,9,20,#,#,15,7},
 	// 3 / \ 9 20 / \ 15 7 return its level order traversal as: [ [3], [9,20], [15,7] ]
 	vector<vector<int>> levelOrder( TreeNode* root );
-
+	vector<vector<int>>  zigZagLevelOrder(TreeNode* root);
 	// Given a binary tree, determine if it is a valid binary search tree (BST). 
 	// Assume a BST is defined as follows: The left subtree of a node contains only nodes with keys less than the node's key. 
 	// The right subtree of a node contains only nodes with keys greater than the node's key. 
@@ -62,12 +62,45 @@ public:
 
 	void destroyTree(TreeNode* root);
 
-	void deleteBST(TreeNode* root, int target );
+	bool deleteBST(TreeNode* root, int target );
+	bool deleteNode(TreeNode* node);
+
 	bool insertBST(TreeNode* root, TreeNode* node);
 	TreeNode* searchBST(TreeNode* root, int target); 
 	void insertBST2(TreeNode* root, TreeNode* node);
 	bool searchBST2(TreeNode* root, int target );
 
 	void testValid( void );
+
+	//BFS and DFS of the tree
+	vector<int> DFS(TreeNode* root);
+	vector<int> BFS(TreeNode* root);
+
+
+	//isSubtree
+	bool isSubTree(TreeNode* T1, TreeNode* T2);
+
+	//build tree from inOrder and postOrder
+	TreeNode* buildTreeFromInandPost(vector<int>& inOrder, vector<int>& postOrder);
+	TreeNode* buildIPHelper(vector<int>::iterator inL, vector<int>::iterator inR, 
+		vector<int>::iterator postL, vector<int>::iterator postR);
+	//build tree from preOrder and inOrder
+	TreeNode* buildTreeFromPreandIn(vector<int>& preOrder, vector<int>& inOrder);
+	TreeNode* buildPIHelper(vector<int>::iterator preL, vector<int>::iterator preR, 
+		vector<int>::iterator inL, vector<int>::iterator inR);
+
+	//print BST keys in the given range
+	//Given two values k1 and k2 (where k1 < k2) and a root pointer to a Binary Search Tree. 
+	//Print all the keys of tree in range k1 to k2. i.e. print all x such that k1<=x<=k2 and 
+	//x is a key of given BST. Print all the keys in increasing order.
+	vector<int> rangeSearchOnBST(TreeNode* root, int k1, int k2);
+
+	void testSearch(void);
+
+	//lowest common ancestor
+	TreeNode* lcaBST(TreeNode* root, TreeNode* node1, TreeNode* node2);
+	TreeNode* lca(TreeNode* root, TreeNode* node1, TreeNode* node2);
+	bool isCover(TreeNode* root, TreeNode* node);
+
 };
 

@@ -143,13 +143,27 @@ int BinaryTest::rangeSearchHelper( vector<int> data, int target, int mode )
 			start = mid;
 		}
 	}
-	if (data[end] == target)
+	if (mode == 0)
 	{
-		return end;
+		if (data[start] == target)
+		{
+			return start;
+		}
+		if (data[end] == target)
+		{
+			return end;
+		}
 	}
-	if (data[start] == target)
+	else
 	{
-		return start;
+		if (data[end] == target)
+		{
+			return end;
+		}
+		if (data[start] == target)
+		{
+			return start;
+		}
 	}
 	return -1;
 }
@@ -158,7 +172,8 @@ int BinaryTest::rangeSearchHelper( vector<int> data, int target, int mode )
 void BinaryTest::testRangeSearch( void )
 {
 	vector<int> searchArr;
-	int iniArr[] = {5, 7, 7, 8, 8, 10};
+	//int iniArr[] = {5, 7, 7, 8, 8, 10};
+	int iniArr[] = {8, 8, 8, 8, 8, 8};
 	searchArr.insert(searchArr.begin(), iniArr, iniArr + sizeof(iniArr) / sizeof(int));
 	int* rangeIndex = rangeSearch(searchArr, 8);
 	cout<<"Index is: "<<rangeIndex[0]<<" ,"<<rangeIndex[1]<<endl;
@@ -252,7 +267,7 @@ bool BinaryTest::searchMatrix( vector<vector<int>> matrix, int target )
 			end = mid;
 		}
 	}
-	if (matrix[end / cols][mid % cols] == target)
+	if (matrix[end / cols][end % cols] == target)
 	{
 		return true;
 	}
@@ -423,4 +438,49 @@ void BinaryTest::testRecoverRotatedSortedArray( void )
 		cout<<testArr[i]<<" ";
 	}
 	cout<<endl;
+}
+
+int BinaryTest::findPeek( int A[], int n )
+{
+	if(A == NULL || n < 3)
+	{
+      return -1;
+	}
+
+	int start = 0;
+	int end = n - 1;
+	int mid;
+
+	while(start + 1 < end)
+	{
+		mid = start + (end - start) / 2;
+	    if(A[mid] < A[mid + 1])
+		{
+			start = mid;
+		}
+		else
+		{
+			end = mid;
+		}
+	}
+
+	if ((start > 0 )&& ( A[start] > A[start - 1] )&& (A[start] > A[start + 1]))
+	{
+		return start;
+	}
+	if ((end < (n - 1)) && (A[end] > A[end - 1]) && (A[end] > A[end + 1]))
+	{
+		return end;
+	}
+	return -1;
+}
+
+void BinaryTest::testFindPeek( void ) 
+{
+	int arr[9] = {1, 2, 8, 4, 5, 6, 5, 7, 2};
+    int peek = findPeek(arr, sizeof(arr) / sizeof(int));
+	if(peek != -1)
+		cout<<arr[peek]<<endl;
+	else
+		cout<<-1<<endl;
 }

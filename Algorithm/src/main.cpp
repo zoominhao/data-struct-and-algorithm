@@ -1,19 +1,13 @@
-#include "treetest.h"
-
-#include <map>
+#include "dptest.h"
+#include <string>
 
 void main()
 {
+	DpTest test;
+	test.testLCS();
+	
 
-/*
- TreeTest treetest;
- treetest.testValid();*/
-	char* str = new char[5];
-	str = "ab";
-	int size = strlen(str);
-	double a = pow(5,1.6);
-	double b = asin(1.0/5);
-  system("pause");
+	system("pause");
 }
 
 

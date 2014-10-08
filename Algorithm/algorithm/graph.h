@@ -4,6 +4,7 @@
 
 #include <queue>
 #include <stack>
+#include <set>
 
 using namespace std;
 
@@ -48,4 +49,25 @@ public:
 	void testBFS( void );
 	void testDFS( void );
 
+	//N-queens
+	vector<vector<string> > solveNQueens(int n);
+	void search(int n, vector<int> cols, vector<vector<string>> result);
+	bool isValid(vector<int> cols, int col);
+	vector<string> drawChessBoard(vector<int> cols);
+
+	//total N-queens
+	int totalNQueens(int n);
+	void placeQueen(int* usedColumns, int n, int row, int& sum);
+	bool isValid2(int* usedColums, int row, int col);
+
+	//palindrome partitioning
+	vector<vector<string>>  partition(string s);
+	bool isPalindrome(string s);
+	void helper(string s, vector<string> path, int pos, vector<vector<string>> result);
+   
+	//word ladder
+	// find the shortest transformation
+	int ladderLength(string start, string end, set<string> dict);
+
+	vector<vector<string>> findLadders(string start, string end, set<string> dict);
 };

@@ -8,7 +8,6 @@ HashTable::HashTable( int length )
 	{
 		m_elems[i] = INT_MIN;
 	}
-	m_sum = 0;
 }
 
 HashTable::~HashTable()
@@ -19,14 +18,6 @@ HashTable::~HashTable()
 int HashTable::Hash( int key )
 {
 	return key % m_length;
-}
-
-int HashTable::Hash2(int key)
-{
-	/*m_sum = m_sum * 33 + key;
-	m_sum = m_sum % m_length;
-	return m_sum;*/
-	return 0;
 }
 
 void HashTable::linearInsert( int key )

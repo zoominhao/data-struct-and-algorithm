@@ -13,6 +13,7 @@ public:
 	//交换类排序
 	void BubbleSort(int* pData, int n);
 	void QuickSort(int* pData, int n);
+	void QuickSort2(int* pData, int n);
 	//选择类排序
 	void SimpleSelectionSort(int* pData, int n);
 	void HeapSort(int* pData, int n);
@@ -33,6 +34,9 @@ private:
 	//////////////////////////////////
 	void QSort( int* pData, int low, int high );
 	int Partition( int* pData, int low, int high );
+
+	void QSort2( int* pData, int low, int high );
+
 	//////////////////////////////////
 	void SiftAdjust(int* pData, int low, int high);
 	//////////////////////////////////

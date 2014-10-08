@@ -1,11 +1,14 @@
 #include "sorttest.h"
 
+#include <stack>
+
 void SortTest::InsertSort( int* pData, int n )
 {
 	for (int i = 1; i < n; ++i)
 	{
 		for (int j = i; j > 0; j--)
 		{
+
 			if (pData[j - 1] > pData[j])
 			{
 				Swap(pData[j - 1], pData[j]);
@@ -72,6 +75,40 @@ void SortTest::QSort( int* pData, int low, int high )
 		int pivot = Partition(pData, low, high);
 		QSort(pData, low, pivot - 1);
 		QSort(pData, pivot + 1, high);
+	}
+}
+
+void SortTest::QuickSort2( int* pData, int n )
+{
+	QSort2(pData, 0, n - 1);
+}
+
+void SortTest::QSort2( int* pData, int low, int high )
+{
+	stack<int>  stk;
+	int pivot;
+	if(low < high)
+	{
+		stk.push(low);
+		stk.push(high);
+		while(!stk.empty())
+		{
+			int r = stk.top();
+			stk.pop();
+			int l = stk.top();
+			stk.pop();
+			pivot = Partition(pData, l, r);
+			if(pivot - 1 > l)
+			{ 
+				stk.push(l);
+				stk.push(pivot - 1);
+			}
+			if(pivot + 1 < r)
+			{
+				stk.push(pivot + 1);
+				stk.push(r);
+			}
+		}
 	}
 }
 
@@ -373,7 +410,9 @@ void SortTest::testSort( void )
 {
 	int a[] = {30,6,2,9,12,5,7};
 	//RadixSort(a,7);
-	CountSort(a, 7);
+	//CountSort(a, 7);
+	QuickSort2(a, 7);
+	//MergeSort(a, 7);
 	for (int i = 0; i < sizeof(a)/sizeof(int); ++i)
 	{
 		cout<<a[i]<<" ";
@@ -381,6 +420,9 @@ void SortTest::testSort( void )
 	cout<<endl;
 
 }
+
+
+
 
 
 

@@ -1,4 +1,4 @@
-#pragma 
+#pragma once
 #include <iostream>
 using namespace std;
 #define  MAXSIZE 10

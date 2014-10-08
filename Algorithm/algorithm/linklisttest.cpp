@@ -1,5 +1,8 @@
 #include "linklisttest.h"
 
+#include <map>
+
+
 ListNode* LinkListTest::deleteDuplicates( ListNode* head )
 {
 	if(head == NULL || head->next == NULL)
@@ -82,6 +85,23 @@ void LinkListTest::testDeleteDuplicates( void )
 	cout<<endl;
 }
 
+ListNode* LinkListTest::sortList( ListNode* head )
+{
+	if(head == NULL || head->next == NULL)
+	{
+		return head;
+	}
+
+	ListNode* mid = findMiddle(head);
+	ListNode* l1 = head;
+	ListNode* l2 = mid->next;
+	mid->next = NULL;
+	l1 = sortList(l1);
+	l2 = sortList(l2);
+
+	return mergeTwoLists(l1, l2);
+}
+
 ListNode* LinkListTest::mergeTwoLists( ListNode* l1, ListNode* l2 )
 {
 	ListNode* dummy = new ListNode(0);
@@ -144,8 +164,8 @@ ListNode* LinkListTest::del( ListNode* head, ListNode* toDel )
 	if (toDel->next != NULL)
 	{
 		toDel->val = toDel->next->val;
-		toDel->next = toDel->next->next;
 		ListNode *tmp = toDel->next;
+		toDel->next = toDel->next->next;
 		delete tmp;
 		return head;
 	}
@@ -160,7 +180,7 @@ ListNode* LinkListTest::del( ListNode* head, ListNode* toDel )
 		}
 		if (head == NULL)
 		{
-			return head;
+			return dummy->next;
 		}
 
 		head->next = NULL;
@@ -381,3 +401,190 @@ ListNode* LinkListTest::detectCycle( ListNode* head )
 	}
 	return fast;
 }
+
+ListNode* LinkListTest::reorderList( ListNode* head )
+{
+	if(head == NULL)
+		return head;
+	ListNode* mid = findMiddle(head);
+	ListNode* l1 = head;
+	ListNode* l2 = mid->next;
+	mid->next = NULL;
+	l2 = reverse(l2);
+	ListNode* dummy = new ListNode(0);
+	ListNode* cur = dummy;
+	int count = 0;
+	while (l1 != NULL && l2 != NULL)
+	{
+		if (count % 2 == 0)
+		{
+			dummy->next = l1;
+			l1 = l1->next;
+		}
+		else
+		{
+			dummy->next = l2;
+			l2 = l2->next;
+		}
+		dummy = dummy->next;
+		count++;
+	}
+	if(l1 != NULL)
+	{
+		dummy->next = l1;
+	}
+	if(l2 != NULL)
+	{
+		dummy->next = l2;
+	}
+	return cur->next;
+}
+
+void LinkListTest::testReorderList( void )
+{
+	int num[] = {1, 4, 3, 2, 5, 8};
+	
+	ListNode* cur = new ListNode(0);
+	ListNode* head = cur;
+
+	for(int i = 0; i < sizeof(num) / sizeof(int); i++)
+	{
+		ListNode* tmp =  new ListNode(num[i]);
+		cur->next  = tmp;
+		cur= cur->next;
+	}
+	cur->next = NULL;
+
+	ListNode* reoderList = reorderList(head->next);
+
+	while(reoderList != NULL)
+	{
+		cout<<reoderList->val<<" ";
+		reoderList = reoderList->next;
+	}
+	cout<<endl;
+}
+
+
+RandomListNode* LinkListTest::copyRandomListByHash( RandomListNode* head )
+{
+	if(head == NULL)
+	{
+		return NULL;
+	}
+	map<RandomListNode*, RandomListNode*> hs;
+	RandomListNode* dummy = new RandomListNode(0);
+	RandomListNode* pre = dummy->next;
+	RandomListNode* newNode;
+	while(head != NULL)
+	{
+		if(hs.find(head) != hs.end())
+		{
+			newNode = hs[head];
+		}
+		else
+		{
+			newNode = new RandomListNode(head->val);
+			hs.insert(pair<RandomListNode*, RandomListNode*>(head, newNode));
+		}
+		pre->next = newNode;
+
+		if(hs.find(head->random) != hs.end())
+		{
+			newNode->random = hs[head->random];
+		}
+		else
+		{
+			newNode->random = new RandomListNode(head->random->val);
+			hs.insert(pair<RandomListNode*, RandomListNode*>(head->random, newNode));
+		}
+		pre = pre->next;
+		head = head->next;
+	}
+	return dummy->next;
+}
+
+RandomListNode* LinkListTest::copyRandomList( RandomListNode* head )
+{
+	if(head == NULL)
+	{
+		return NULL;
+	}
+	copyNext(head);
+	copyRandom(head);
+	return spliList(head);
+}
+
+void LinkListTest::copyNext( RandomListNode* head )
+{
+	while(head != NULL)
+	{
+		RandomListNode* newNode = new RandomListNode(head->val);
+		newNode->random = head->random;
+		newNode->next = head->next;
+		head->next = newNode;
+		head = head->next->next;
+	}
+}
+
+void LinkListTest::copyRandom( RandomListNode* head )
+{
+	while(head != NULL)
+	{
+		if(head->next->random != NULL)
+		{
+			head->next->random = head->random->next;
+		}
+		head = head->next->next;
+	}
+}
+
+RandomListNode* LinkListTest::spliList( RandomListNode* head )
+{
+	RandomListNode* newHead = head->next;
+	while (head != NULL)
+	{
+		RandomListNode* tmp = head->next;
+		head->next = tmp->next;
+		head = head->next;
+		if (head != NULL)
+		{
+			tmp->next = head;
+		}
+	}
+	return newHead;
+}
+
+TreeNode* LinkListTest::sortedListToBST( ListNode *head )
+{
+	if(head == NULL)
+		return NULL;
+	int size = 0;
+	ListNode* cur = head;
+	while(head != NULL)
+	{
+		head = head->next;
+		size++;
+	}
+
+	return sortedListToBSTHelper(head, size);
+}
+
+TreeNode* LinkListTest::sortedListToBSTHelper(ListNode* head, int size)
+{
+	if(size <= 0)
+		return NULL;
+
+	TreeNode* root;
+	root->left = sortedListToBSTHelper(head, size / 2);
+	root = new TreeNode(head->val);
+	head = head->next;
+	root->right = sortedListToBSTHelper(head, size - 1 - size / 2);
+
+	return root;
+}
+
+
+
+
+

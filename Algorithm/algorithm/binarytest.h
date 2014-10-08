@@ -69,4 +69,7 @@ public:
 	void recoverRotatedSortedArray(vector<int>& A);
 
 	void testRecoverRotatedSortedArray( void );
+
+	int findPeek(int A[], int n);
+	void testFindPeek(void);
 };

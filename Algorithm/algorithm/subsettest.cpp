@@ -208,4 +208,182 @@ void SubSetTest::testSubsetUnique( void )
 	}
 }
 
+vector<int> SubSetTest::next_permutation( vector<int>& num )
+{
+	if (num.size() == 0)
+	{
+		return num;
+	}
+	int len = num.size();
+	for (int i = len - 2; i >= 0; --i)
+	{
+		if (num[i] < num[i + 1])
+		{
+		  int j;
+		  for (j = len - 1; j > i - 1; --j)
+		  {
+			  if(num[j] > num[i])
+			  {
+				  break;
+			  }
+		  }
+		  swap(num, i, j);
+		  reverse(num, i + 1, len - 1);
+		  return num;
+		}
+	}
+   reverse(num, 0, len - 1);
+   return num;
+}
+
+void SubSetTest::swap( vector<int>& num, int i, int j )
+{
+	int tmp = num[i];
+	num[i] = num[j];
+	num[j] = tmp;
+}
+
+void SubSetTest::reverse( vector<int>& num, int start, int end )
+{
+	while (start < end)
+	{
+		swap(num, start++, end--);
+	}
+}
+
+void SubSetTest::testNextPermutation( void )
+{
+	int arr[] = {1, 4, 6, 5, 3, 2};   //1 5 2 3 4 6
+	vector<int> vec;
+	vec.insert(vec.begin(), arr, arr + sizeof(arr) / sizeof(int));
+	next_permutation(vec);
+	for (int i = 0; i < vec.size(); ++i)
+	{
+		cout<<vec[i]<<" ";
+	}
+	cout<<endl;
+}
+
+vector<vector<int>> SubSetTest::combinationSum( vector<int> num, int target )
+{
+	vector<vector<int>> rst;
+	if (num.size() == 0)
+	{
+		return rst;
+	}
+	vector<int> path;
+    sort(num.begin(), num.end(), less<int>());
+	combinationSumHelper(num, target, path, 0, rst);
+	return rst;
+}
+
+void SubSetTest::combinationSumHelper( vector<int> num, int target, vector<int> path, int pos, vector<vector<int>>& rst )
+{
+	if (target == 0)
+	{
+		rst.push_back(path);
+		return;
+	}
+	int prev = -1;
+	for (int i = pos; i < num.size(); i++) {
+		if (num[i] > target) {
+			break;
+		}
+
+		if (prev != -1 && prev == num[i]) {
+			continue;
+		}
+
+		path.push_back(num[i]);
+		combinationSumHelper(num, target - num[i], path, i, rst);
+		path.pop_back();
+
+		prev = num[i];
+	}
+}
+
+vector<vector<int>> SubSetTest::combinationSum2( vector<int> num, int target )
+{
+	vector<vector<int>> rst;
+	if (num.size() == 0)
+	{
+		return rst;
+	}
+	vector<int> path;
+	sort(num.begin(), num.end(), less<int>());
+	combinationSumHelper2(num, target, path, 0, rst);
+	return rst;
+}
+
+void SubSetTest::combinationSumHelper2( vector<int> num, int target, vector<int> path, int pos, vector<vector<int>>& rst )
+{
+	if (target == 0)
+	{
+		rst.push_back(path);
+		return;
+	}
+	int prev = -1;
+	for (int i = pos; i < num.size(); ++i)
+	{
+		if (num[i] > target)
+		{
+			break;
+		}
+		if(prev == num[i])
+		{
+			continue;
+		}
+		path.push_back(num[i]);
+		combinationSumHelper2( num, target - num[i], path, i + 1, rst );
+		path.pop_back();
+		prev = num[i];
+	}
+}
+
+
+void SubSetTest::testCombination( void )
+{
+	int arr[] = {1, 4, 6, 5, 3, 2};   //1 5 2 3 4 6
+	vector<int> vec;
+	vec.insert(vec.begin(), arr, arr + sizeof(arr) / sizeof(int));
+	vector<vector<int>> rst = combinationSum2(vec, 5);
+	for (int i = 0; i < rst.size(); ++i)
+	{
+		for (int j = 0; j < rst[i].size(); ++j)
+		{
+			cout<<rst[i][j]<<" ";
+		}
+		cout<<endl;
+	}
+
+}
+
+vector<string> SubSetTest::grayCode( int n )
+{
+	vector<string> code;
+	code.resize(pow(2, n));
+
+	if(n == 1){
+		code[0] = "0";
+		code[1] = "1";
+		return code;
+	}
+
+	vector<string> last = grayCode(n - 1);
+	for(int i = 0; i < last.size(); ++i){
+		code[i] = "0" + last[i];
+		code[code.size() - 1 - i] = last[i] + "1";
+	}
+	return code;
+}
+
+void SubSetTest::testGrayCode( void )
+{
+	vector<string> res = grayCode(3);
+	for (int i = 0; i < res.size(); ++i)
+	{
+		cout<<res[i]<<" ";
+	}
+	cout<<endl;
+}
 

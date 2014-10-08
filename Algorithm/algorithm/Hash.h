@@ -11,7 +11,6 @@ public:
 	~HashTable();
 
 	int Hash(int key);
-	int Hash2(int key);
 	//linear way to resolve conflict
 	void linearInsert(int key);
 	bool linearSearch(int key, int* addr);
@@ -22,5 +21,4 @@ public:
 private:
 	int *m_elems;
 	int m_length;
-	int m_sum;
 };

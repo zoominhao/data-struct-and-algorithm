@@ -16,8 +16,9 @@ void CircledQueue::InQueue( int x )
 	{
 		return;
 	}
-	data[rear] = x;
+	
 	rear = (rear + 1) % MAXSIZE;
+	data[rear] = x;
 }
 
 int CircledQueue::OutQueue()
